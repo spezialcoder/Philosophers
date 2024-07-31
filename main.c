@@ -10,27 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <pthread.h>
-
-void* my_thread(void *idx) {
-	printf("Thread: %d\n",*((int*)idx));
-	return NULL;
-}
+#include "philosim.h"
 
 int main() {
-	pthread_t handle;
-	pthread_t handle2;
-	pthread_t handle3;
-	pthread_t handle4;
-	pthread_create(&handle, NULL, my_thread, (int[]){1});
-	pthread_create(&handle2, NULL, my_thread, (int[]){2});
-	pthread_create(&handle3, NULL, my_thread, (int[]){3});
-	pthread_create(&handle4, NULL, my_thread, (int[]){4});
-	pthread_join(handle,NULL);
-	pthread_join(handle2,NULL);
-	pthread_join(handle3,NULL);
-	pthread_join(handle4,NULL);
-
+    sim_run(5, 200, 200, 800, 0);
 	return 0;
 }
