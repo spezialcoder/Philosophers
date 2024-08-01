@@ -13,6 +13,6 @@
 #include "philosim.h"
 
 int main() {
-    sim_run(5, 200, 200, 800, 0);
+    sim_run(10, 200, 200, 400, 0);
 	return 0;
 }

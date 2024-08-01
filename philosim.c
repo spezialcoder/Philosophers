@@ -63,7 +63,7 @@ void sim_run(int num_philos, int time_to_eat, int time_to_sleep,
         pthread_mutex_init(&sim.forks[tmp++],NULL);
     tmp = 0;
     while(tmp < num_philos) {
-        p[tmp] = (t_philo){tmp+1,&sim};
+        p[tmp] = (t_philo){tmp+1,0,&sim};
         pthread_create(&sim.threads[tmp], NULL, &sim_philo_routine, (void*)&p[tmp]);
         tmp++;
     }
