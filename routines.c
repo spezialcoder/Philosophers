@@ -42,6 +42,13 @@ static void eat_routine(t_philo *p) {
     sim_trigger_event(EATING,p);
     p->last_meal = get_time_ms();
     sim_delay(p->sim->time_to_eat, p->sim);
+    p->meal_count++;
+    if(p->meal_count == p->sim->num_philos) {
+        pthread_mutex_lock(&p->sim->pf_lock);
+        p->sim->philos_full++;
+        pthread_mutex_unlock(&p->sim->pf_lock);
+    }
+
     release_forks(p);
     sim_trigger_event(SLEEPING,p);
     sim_delay(p->sim->time_to_sleep, p->sim);

@@ -63,13 +63,14 @@ void sim_run(int num_philos, int time_to_eat, int time_to_sleep,
     sim.threads = malloc(num_philos * sizeof(pthread_t));
     sim.forks = malloc(num_philos * sizeof(pthread_mutex_t));
     pthread_mutex_init(&sim.write_lock, NULL);
+    pthread_mutex_init(&sim.pf_lock,NULL);
     tmp = 0;
     while (tmp < num_philos)
         pthread_mutex_init(&sim.forks[tmp++], NULL);
     tmp = 0;
     sim.start_time_stamp = get_time_ms();
     while (tmp < num_philos) {
-        sim.philos[tmp] = (t_philo) {tmp + 1, 0, &sim};
+        sim.philos[tmp] = (t_philo) {tmp + 1, 0, &sim,0};
         pthread_create(&sim.threads[tmp], NULL, &sim_philo_routine, (void *) &sim.philos[tmp]);
         tmp++;
     }
@@ -80,6 +81,7 @@ void sim_run(int num_philos, int time_to_eat, int time_to_sleep,
         pthread_mutex_destroy(&sim.forks[tmp++]);
     }
     pthread_mutex_destroy(&sim.write_lock);
+    pthread_mutex_destroy(&sim.pf_lock);
     free(sim.forks);
     free(sim.threads);
     free(sim.philos);

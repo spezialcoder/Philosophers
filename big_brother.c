@@ -26,6 +26,10 @@ void* big_brother_routine(void *arg) {
                     sim_trigger_event(DIED,philo);
                     return (NULL);
                 }
+                if(philo->sim->philos_full == sim->num_meals) {
+                    sim->running = 0;
+                    return (NULL);
+                }
             }
             usleep(100);
         }

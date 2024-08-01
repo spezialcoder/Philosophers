@@ -41,12 +41,15 @@ struct s_simulation {
     pthread_mutex_t write_lock;
     t_philo *philos;
     volatile uint8_t running;
+    pthread_mutex_t pf_lock;
+    uint32_t philos_full;
 };
 
 struct s_philo {
     int philo_id;
     uint64_t last_meal;
     t_simulation *sim;
+    uint32_t meal_count;
 };
 
 uint64_t get_time_ms();
