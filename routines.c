@@ -10,7 +10,7 @@ void* sim_philo_routine(void *arg) {
     if(p->philo_id%2 == 0) {
         think_routine(p);
     }
-    while(1) {
+    while(p->sim->running) {
         eat_routine(p);
         think_routine(p);
     }
@@ -41,10 +41,10 @@ static void eat_routine(t_philo *p) {
     accquire_forks(p);
     sim_trigger_event(EATING,p);
     p->last_meal = get_time_ms();
-    sim_delay(p->sim->time_to_eat);
+    sim_delay(p->sim->time_to_eat, p->sim);
     release_forks(p);
     sim_trigger_event(SLEEPING,p);
-    sim_delay(p->sim->time_to_sleep);
+    sim_delay(p->sim->time_to_sleep, p->sim);
 }
 
 static void think_routine(t_philo *p) {
@@ -58,5 +58,5 @@ static void think_routine(t_philo *p) {
         wakeup = 0;
     }
     if(p->last_meal) sim_trigger_event(THINKING,p);
-    sim_delay(wakeup);
+    sim_delay(wakeup, p->sim);
 }

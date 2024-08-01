@@ -11,8 +11,28 @@
 /* ************************************************************************** */
 
 #include "philosim.h"
+#include "utilities.h"
 
-int main() {
-    sim_run(10, 200, 200, 400, 0);
+int main(int argc, char *argv[]) {
+    t_parameters p;
+
+    if(argc != 5 && argc != 6) {
+        printf("Usage: ./philo <number of philosophers> <time to die> <time to eat> <time to sleep> <?number of meals?>\n");
+        return 0;
+    }
+    p = (t_parameters) {
+            ft_atoi(argv[1]),
+            ft_atoi(argv[2]),
+            ft_atoi(argv[3]),
+            ft_atoi(argv[4]),
+            0
+    };
+    if(argc == 6)
+        p.num_meals = ft_atoi(argv[5]);
+    sim_run(p.num_philos,
+            p.time_to_eat,
+            p.time_to_sleep,
+            p.time_to_die,
+            p.num_meals);
 	return 0;
 }
