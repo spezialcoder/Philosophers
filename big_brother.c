@@ -12,6 +12,7 @@ void* sim_run_big_brother(void *arg) {
 
 void* big_brother_routine(void *arg) {
         int tmp;
+        uint64_t lifetime;
         t_philo *philo;
         t_simulation *sim;
 
@@ -21,15 +22,22 @@ void* big_brother_routine(void *arg) {
             tmp = 0;
             while(tmp < sim->num_philos) {
                 philo = &sim->philos[tmp];
-                if(get_time_ms() - philo->last_meal > sim->time_to_die) {
+                if(philo->last_meal == 0) {
+                    lifetime = sim->start_time_stamp;
+                } else {
+                    lifetime = philo->last_meal;
+                }
+                if(get_time_ms() - lifetime > sim->time_to_die) {
                     sim->running = 0;
                     sim_trigger_event(DIED,philo);
                     return (NULL);
                 }
-                if(philo->sim->philos_full == sim->num_meals) {
-                    sim->running = 0;
-                    return (NULL);
-                }
+                tmp++;
+            }
+            if(sim->philos_full == sim->num_philos && sim->num_philos) {
+
+                sim->running = 0;
+                return (NULL);
             }
             usleep(100);
         }
