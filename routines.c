@@ -1,12 +1,16 @@
 #include "routines.h"
 
 static void eat_routine(t_philo *p);
-static void think_routine();
+static void think_routine(t_philo *p);
 
 void* sim_philo_routine(void *arg) {
     t_philo *p;
 
     p = (t_philo*)arg;
+    if(p->sim->num_philos == 1) {
+        while(p->sim->running);
+        return (NULL);
+    }
     if(p->philo_id%2 == 0) {
         think_routine(p);
     }
@@ -56,12 +60,13 @@ static void eat_routine(t_philo *p) {
 static void think_routine(t_philo *p) {
     long long wakeup;
 
-    wakeup = (long long)(p->sim->time_to_die - (get_time_ms()-p->last_meal));
-    if(p->last_meal == 0) {
+    wakeup = (long long) (p->sim->time_to_die - (get_time_ms() - p->last_meal));
+    if (p->last_meal == 0) {
         wakeup = 100;
-    }
-    else if(wakeup < 0) {
+    } else if (wakeup < 0) {
         wakeup = 0;
+    } else {
+        wakeup = wakeup/2;
     }
     if(p->last_meal) sim_trigger_event(THINKING,p);
     sim_delay(wakeup, p->sim);

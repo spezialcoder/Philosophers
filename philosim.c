@@ -14,7 +14,7 @@ void sim_delay(uint32_t time, t_simulation* sim) {
     while(get_time_ms() < wakeup) {
         if(!sim->running)
             return;
-        usleep(50);
+        usleep(100);
     }
 }
 
