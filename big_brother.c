@@ -7,11 +7,11 @@ void* sim_run_big_brother(void *arg) {
     sim = (t_simulation*)arg;
     pthread_create(&handler, NULL, &big_brother_routine, (void*)sim);
     pthread_join(handler,NULL);
-
+	return (NULL);
 }
 
 void* big_brother_routine(void *arg) {
-        int tmp;
+        uint32_t tmp;
         uint64_t lifetime;
         t_philo *philo;
         t_simulation *sim;
@@ -41,4 +41,5 @@ void* big_brother_routine(void *arg) {
             }
             usleep(100);
         }
+		return (NULL);
 }

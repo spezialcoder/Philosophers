@@ -43,7 +43,7 @@ void sim_trigger_event(enum EVENT type, t_philo *p) {
 }
 
 static void wait_till_termination(t_simulation *sim) {
-    int tmp;
+    uint32_t tmp;
 
     tmp = 0;
     while(tmp < sim->num_philos) {
@@ -56,10 +56,9 @@ void sim_run(int num_philos, int time_to_eat, int time_to_sleep,
              int time_to_die, int num_meals) {
     t_simulation sim;
     int tmp;
-    sim = (t_simulation) {num_philos, time_to_eat, time_to_sleep,
-                          time_to_die, num_meals, 0,0, 0, 0, 0, 1, 0, 0};
-    sim.running = 1;
-    sim.philos_full = 0;
+	sim = (t_simulation) {num_philos, time_to_eat, time_to_sleep,
+                          time_to_die, num_meals, 0,
+						  .running=1, .philos_full=0};
     sim.philos = (t_philo *) malloc(num_philos * sizeof(t_philo));
     sim.threads = malloc(num_philos * sizeof(pthread_t));
     sim.forks = malloc(num_philos * sizeof(pthread_mutex_t));

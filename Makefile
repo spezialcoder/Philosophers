@@ -1,6 +1,6 @@
 NAME = philo
 CC = cc
-CFLAGS = -g -lpthread
+CFLAGS = -g -lpthread -Werror -Wextra -Wall
 SRCS = main.c philosim.c routines.c big_brother.c utilities.c
 
 all: $(SRCS)
@@ -8,8 +8,8 @@ all: $(SRCS)
 
 clean:
 
-fclean:
-
-re:
+fclean: $(NAME)
+	rm $(NAME)
+re: fclean all
 
 .PHONY: all clean fclean re
